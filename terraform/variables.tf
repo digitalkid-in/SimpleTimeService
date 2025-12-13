@@ -90,7 +90,7 @@ variable "single_nat_gateway" {
 # ========================================
 
 variable "lambda_image_uri" {
-  description = "Full ECR image URI for Lambda (e.g., account-id.dkr.ecr.region.amazonaws.com/repo:tag). Leave empty to use the ECR repository created by this module"
+  description = "Full ECR image URI for Lambda (leave empty to use auto-built image from ECR repository)"
   type        = string
   default     = ""
 }

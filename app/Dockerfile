@@ -14,7 +14,8 @@ WORKDIR /app
 # Install dependencies first (better layer caching)
 COPY requirements.txt .
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt && \
+    pip install --no-cache-dir awslambdaric
 
 # Copy application code
 COPY app.py .
@@ -25,7 +26,6 @@ RUN chown -R appuser:appgroup /app
 # Switch to non-root user
 USER appuser
 
-EXPOSE 5000
-
-
-CMD ["python", "app.py"]
+# Set the CMD to your handler (could also be done as a parameter override outside of the Dockerfile)
+ENTRYPOINT [ "/usr/local/bin/python", "-m", "awslambdaric" ]
+CMD [ "app.lambda_handler" ]

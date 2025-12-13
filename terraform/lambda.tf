@@ -2,6 +2,12 @@
 # Lambda Function using Terraform Module
 # https://registry.terraform.io/modules/terraform-aws-modules/lambda/aws/8.1.2
 # ========================================
+# 
+# DEPLOYMENT:
+# 1. ECR repository created
+# 2. Docker image built and pushed (via null_resource)
+# 3. Lambda function created with the image
+# ========================================
 
 module "lambda" {
   source  = "terraform-aws-modules/lambda/aws"
@@ -44,11 +50,12 @@ module "lambda" {
     var.additional_tags
   )
 
-  # Depends on VPC endpoints being ready
+  # Depends on VPC endpoints being ready AND Docker image being pushed
   depends_on = [
     aws_vpc_endpoint.ecr_api,
     aws_vpc_endpoint.ecr_dkr,
     aws_vpc_endpoint.s3,
-    aws_vpc_endpoint.logs
+    aws_vpc_endpoint.logs,
+    null_resource.docker_build_push
   ]
 }
