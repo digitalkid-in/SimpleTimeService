@@ -28,11 +28,11 @@ python app.py
 
 ## Docker Setup
 
-To build and run the application using the Dockerfile.
+To Build and Run the application using the Dockerfile.
 
 ```bash
 
-#To pull the docker image
+#To Pull the Docker Image
 
 docker pull digitalkid/simple-time-service:latest
 
