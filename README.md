@@ -27,9 +27,9 @@ To Build and Run the application using the Dockerfile.
 
 ```bash
 
-#To build the dockerfile
+#To Pull the Docker Image
 
-docker build -t simple-time-service:latest .
+docker pull digitalkid/simple-time-service:latest
 
 #To run the application
 
