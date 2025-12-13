@@ -27,3 +27,70 @@ output "private_subnet_ids" {
 #   description = "Elastic IPs of the NAT Gateways"
 #   value       = module.vpc.nat_public_ips
 # }
+
+# ========================================
+# ECR Outputs
+# ========================================
+
+output "ecr_repository_url" {
+  description = "URL of the ECR repository (use this to push Docker images)"
+  value       = aws_ecr_repository.main.repository_url
+}
+
+output "ecr_repository_arn" {
+  description = "ARN of the ECR repository"
+  value       = aws_ecr_repository.main.arn
+}
+
+# ========================================
+# Lambda Outputs
+# ========================================
+
+output "lambda_function_name" {
+  description = "Name of the Lambda function"
+  value       = module.lambda.lambda_function_name
+}
+
+output "lambda_function_arn" {
+  description = "ARN of the Lambda function"
+  value       = module.lambda.lambda_function_arn
+}
+
+output "lambda_role_arn" {
+  description = "ARN of the Lambda execution role"
+  value       = module.lambda.lambda_role_arn
+}
+
+output "lambda_invoke_arn" {
+  description = "ARN to invoke the Lambda function"
+  value       = module.lambda.lambda_function_invoke_arn
+}
+
+# ========================================
+# API Gateway Outputs
+# ========================================
+
+output "api_gateway_url" {
+  description = "URL of the API Gateway endpoint (use this to test your application)"
+  value       = aws_apigatewayv2_stage.default.invoke_url
+}
+
+output "api_gateway_id" {
+  description = "ID of the API Gateway"
+  value       = aws_apigatewayv2_api.main.id
+}
+
+# ========================================
+# Deployment Information
+# ========================================
+
+output "deployment_info" {
+  description = "Quick reference for deployment information"
+  value = {
+    api_endpoint       = aws_apigatewayv2_stage.default.invoke_url
+    lambda_function    = module.lambda.lambda_function_name
+    ecr_repository_url = aws_ecr_repository.main.repository_url
+    region             = var.aws_region
+    environment        = var.environment
+  }
+}
