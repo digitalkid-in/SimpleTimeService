@@ -1,6 +1,6 @@
 # SimpleTimeService
 
-A simple tool to display a user's current timestamp and IP Address in the web browser.
+A simple python based tool to display a user's current timestamp and IP Address in the web browser.
 
 ## Dev Setup
 
