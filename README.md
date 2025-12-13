@@ -19,4 +19,14 @@ pip install -r requirements.txt
 # Run the app
 python app.py
 
+## Docker Setup
 
+```bash
+
+#To build the dockerfile
+
+docker build -t simple-time-service:latest .
+
+#To run the application
+
+docker run -p 8000:8000 simple-time-service
