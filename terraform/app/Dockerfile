@@ -9,9 +9,10 @@ RUN addgroup --system appgroup && adduser --system --ingroup appgroup appuser
 # Working Directory
 WORKDIR /app
 
-# Install dependencies
+# Install dependencies first (better layer caching)
 COPY requirements.txt .
-RUN pip install --no-cache-dir flask==3.0.0
+RUN pip install --no-cache-dir -r requirements.txt && \
+    pip install --no-cache-dir awslambdaric
 
 # Copy application code
 COPY app.py .
@@ -22,8 +23,6 @@ RUN chown -R appuser:appgroup /app
 # Switch to non-root user
 USER appuser
 
-# Expose port
-EXPOSE 8000
-
-# Run Flask app directly (for local development)
-CMD ["python", "app.py"]
+# Lambda Runtime Interface Client
+ENTRYPOINT [ "/usr/local/bin/python", "-m", "awslambdaric" ]
+CMD [ "app.lambda_handler" ]

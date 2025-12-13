@@ -6,10 +6,10 @@
 resource "null_resource" "docker_build_push" {
   triggers = {
     # Rebuild when app files change
-    dockerfile_hash    = filesha1("${path.module}/../app/Dockerfile")
-    app_py_hash        = filesha1("${path.module}/../app/app.py")
-    requirements_hash  = filesha1("${path.module}/../app/requirements.txt")
-    ecr_url            = aws_ecr_repository.main.repository_url
+    dockerfile_hash   = filesha1("${path.module}/app/Dockerfile")
+    app_py_hash       = filesha1("${path.module}/app/app.py")
+    requirements_hash = filesha1("${path.module}/app/requirements.txt")
+    ecr_url           = aws_ecr_repository.main.repository_url
   }
 
   provisioner "local-exec" {
@@ -30,7 +30,7 @@ resource "null_resource" "docker_build_push" {
       docker build --platform linux/amd64 \
         --provenance=false \
         -t ${aws_ecr_repository.main.repository_url}:latest \
-        ${path.module}/../app
+        ${path.module}/app
       
       docker push ${aws_ecr_repository.main.repository_url}:latest
       
