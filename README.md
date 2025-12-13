@@ -21,6 +21,8 @@ python app.py
 
 ## Docker Setup
 
+To Build and Run the application using the Dockerfile.
+
 ```bash
 
 #To build the dockerfile
@@ -30,3 +32,4 @@ docker build -t simple-time-service:latest .
 #To run the application
 
 docker run -p 8000:8000 simple-time-service
+
