@@ -6,21 +6,63 @@ A simple python based tool to display a user's current timestamp and IP Address 
 
 Clone the code locally and run the following commands in your terminal:
 
-```bash
+## Project Structure
 
-# Navigate into Applicatuion Directory
-
-cd /app
-
-# Create virtual environment
-python -m venv venv
-
-# Activate virtual environment (macOS/Linux)
-source venv/bin/activate
-
-# Install requirements
-pip install -r requirements.txt
 ```
+SimpleTimeService/
+├── app/                          # Local development
+│   ├── Dockerfile               # Simple Flask server
+│   ├── app.py                   # Flask app
+│   └── requirements.txt         # Only flask
+│
+└── terraform/
+    ├── app/                      # Lambda deployment (separate copy)
+    │   ├── Dockerfile           # Lambda with awslambdaric
+    │   ├── app.py               # Flask app with lambda_handler
+    │   └── requirements.txt     # flask + serverless-wsgi
+    └── *.tf                     # Terraform configuration
+```
+
+## Local Development
+
+Run the Flask app locally using Docker:
+
+```bash
+cd app
+docker build -t simple-time-service-local .
+docker run -p 8000:8000 simple-time-service-local
+
+# Test it
+curl http://localhost:8000
+# Response: {"ip":"127.0.0.1","timestamp":"2025-12-13T16:59:34.123456Z"}
+```
+
+Or run directly with Python:
+
+```bash
+cd app
+pip install -r requirements.txt
+python app.py
+```
+
+## Lambda Deployment (AWS)
+
+Deploy to AWS Lambda with API Gateway:
+
+```bash
+cd terraform
+terraform init
+terraform apply
+
+# Terraform will:
+# 1. Create VPC, subnets, security groups
+# 2. Build Docker image from terraform/app/
+# 3. Push to ECR
+# 4. Deploy Lambda function
+# 5. Create API Gateway
+```
+
+**Note**: The `terraform/app/` folder is a separate copy optimized for Lambda with `serverless-wsgi` and Lambda Runtime Interface Client. You can modify `app/` for local development without affecting Lambda deployment.
 
 ## Troubleshooting
 
