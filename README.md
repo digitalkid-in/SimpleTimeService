@@ -7,6 +7,11 @@ A simple python based tool to display a user's current timestamp and IP Address 
 Clone the code locally and run the following commands in your terminal:
 
 ```bash
+
+# Navigate into Applicatuion Directory
+
+cd /app
+
 # Create virtual environment
 python -m venv venv
 
