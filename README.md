@@ -18,6 +18,8 @@ pip install -r requirements.txt
 
 # Run the app
 python app.py
+```
+
 
 ## Docker Setup
 
@@ -33,3 +35,9 @@ docker build -t simple-time-service:latest .
 
 docker run -p 8000:8000 simple-time-service
 
+```
+
+## Access the application
+
+Open http://localhost:8000 (or http://127.0.0.1:8000) in your browser.  
+If you're running the app in Docker, make sure port 8000 is forwarded (for example: docker run -p 8000:8000 simple-time-service).
