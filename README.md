@@ -1,13 +1,61 @@
-# SimpleTimeService
+## Simple Time Service
 
 A simple python based tool to display a user's current timestamp and IP Address in the web browser.
 
-## Dev Setup
+## Getting Started
 
-Clone the code locally and run the following commands in your terminal:
+Clone the repository and navigate to the project directory:
+
+```bash
+git clone https://github.com/rohenp/SimpleTimeService.git
+cd SimpleTimeService
+```
+
+## Prerequisites
+
+Before you begin, ensure you have the following installed on your machine:
+
+### Required Software
+
+- **Docker Desktop** - For building and running containerized applications
+  - Download: [https://www.docker.com/products/docker-desktop](https://www.docker.com/products/docker-desktop)
+  - Verify installation: `docker --version`
+
+- **Terraform** - For infrastructure as code deployment
+  - Download: [https://www.terraform.io/downloads](https://www.terraform.io/downloads)
+  - Verify installation: `terraform --version`
+
+- **AWS CLI** - For AWS account configuration and management
+  - Download: [https://aws.amazon.com/cli/](https://aws.amazon.com/cli/)
+  - Verify installation: `aws --version`
+
+### AWS Account Requirements
+
+- **Active AWS Account** with appropriate permissions
+- **IAM User** with the following permissions:
+  - VPC management (create/delete VPCs, subnets, security groups)
+  - ECR (Elastic Container Registry) access
+  - Lambda function management
+  - API Gateway management
+  - IAM role creation for Lambda execution
+  - CloudWatch Logs access
+
+- **AWS Credentials Configured**:
+  ```bash
+  aws configure
+  # Enter your AWS Access Key ID
+  # Enter your AWS Secret Access Key
+  # Enter your default region (e.g., ap-south-1)
+  # Enter your default output format (e.g., json)
+  ```
+
+### Optional (for Local Development)
+
+- **Python 3.9+** - If running the Flask app directly without Docker
+  - Verify installation: `python --version` or `python3 --version`
+
 
 ## Project Structure
-
 ```
 SimpleTimeService/
 ├── app/                          # Local development
@@ -23,29 +71,25 @@ SimpleTimeService/
     └── *.tf                     # Terraform configuration
 ```
 
-## Local Development
+## Docker Setup
 
-Run the Flask app locally using Docker:
-
-```bash
-cd app
-docker build -t simple-time-service-local .
-docker run -p 8000:8000 simple-time-service-local
-
-# Test it
-curl http://localhost:8000
-# Response: {"ip":"127.0.0.1","timestamp":"2025-12-13T16:59:34.123456Z"}
-```
-
-Or run directly with Python:
+To Run the Application on your Local.
 
 ```bash
-cd app
-pip install -r requirements.txt
-python app.py
+
+#To Pull the Docker Image
+docker pull digitalkid/simple-time-service:latest
+
+#To run the application
+docker run -p 8000:8000 simple-time-service
+
 ```
 
-## Lambda Deployment (AWS)
+Open http://localhost:8000 (or http://127.0.0.1:8000) in your browser.  
+If you're running the app in Docker, make sure port 8000 is forwarded (for example: docker run -p 8000:8000 simple-time-service).
+
+
+## Lambda Deployment (AWS) (Serverless)
 
 Deploy to AWS Lambda with API Gateway:
 
@@ -104,29 +148,3 @@ terraform destroy
 - Run `terraform destroy` again
 - Or manually delete ENIs via AWS Console/CLI
 
-## Cost Optimization
-
-```bash
-# Run the app
-python app.py
-```
-
-
-## Docker Setup
-
-To Build and Run the application using the Dockerfile.
-
-```bash
-
-#To Pull the Docker Image
-
-docker pull digitalkid/simple-time-service:latest
-
-#To run the application
-
-docker run -p 8000:8000 simple-time-service
-
-```
-
-Open http://localhost:8000 (or http://127.0.0.1:8000) in your browser.  
-If you're running the app in Docker, make sure port 8000 is forwarded (for example: docker run -p 8000:8000 simple-time-service).

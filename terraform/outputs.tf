@@ -94,3 +94,27 @@ output "deployment_info" {
     environment        = var.environment
   }
 }
+
+# ========================================
+# Deployment Message
+# ========================================
+
+output "deployment_message" {
+  description = "Deployment completion message with API Gateway URL"
+  value       = <<-EOT
+  
+  ========================================
+  🚀 Deployment Complete!
+  ========================================
+  
+  API Gateway URL: ${aws_apigatewayv2_stage.default.invoke_url}
+  
+  ⚠️  Please wait 15 seconds before testing.
+  Cold start of Lambda is expected.
+  
+  ========================================
+  
+  Sincerely, Rohen
+  
+  EOT
+}
