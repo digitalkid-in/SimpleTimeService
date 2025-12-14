@@ -227,3 +227,37 @@ terraform destroy
 - Run `terraform destroy` again
 - Or manually delete ENIs via AWS Console/CLI
 
+## CI/CD with GitHub Actions
+
+This project includes automated Terraform deployment using GitHub Actions.
+
+### Features
+
+- ✅ **Automatic `terraform plan`** on pull requests
+- ✅ **Automatic `terraform apply`** when merged to main
+- ✅ **Plan results posted** as PR comments
+- ✅ **Deployment testing** - automatically tests API after deployment
+- ✅ **Manual approval** option for production deployments
+
+### Quick Setup
+
+1. **Create AWS IAM user** for GitHub Actions with required permissions
+2. **Add GitHub secrets**:
+   - `AWS_ACCESS_KEY_ID`
+   - `AWS_SECRET_ACCESS_KEY`
+3. **Push to main** or create a PR to trigger the workflow
+
+**Detailed setup instructions**: See [.github/GITHUB_ACTIONS_SETUP.md](./.github/GITHUB_ACTIONS_SETUP.md)
+
+### Workflow Behavior
+
+**On Pull Request:**
+- Runs `terraform plan`
+- Posts plan as PR comment
+- No infrastructure changes
+
+**On Push to Main:**
+- Runs `terraform apply`
+- Tests deployed API
+- Posts deployment summary with API URL
+
