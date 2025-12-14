@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from datetime import datetime
+import serverless_wsgi
 
 app = Flask(__name__)
 
@@ -12,5 +13,10 @@ def simple_time_service():
     }
     return jsonify(response)
 
+# Lambda handler function
+def lambda_handler(event, context):
+    return serverless_wsgi.handle_request(app, event, context)
+
+# For local testing
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8000)
